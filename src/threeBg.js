@@ -2,7 +2,8 @@ import * as THREE from 'three';
 import * as CANNON from 'cannon-es';
 import { RectAreaLightHelper } from 'three/examples/jsm/helpers/RectAreaLightHelper.js';
 import { RectAreaLightUniformsLib } from 'three/examples/jsm/lights/RectAreaLightUniformsLib.js';
-import { createBook } from './objects/book.js'; // Import your stylized object
+import { createBook } from './objects/book.js';
+import { createPencil } from './objects/pencil.js';
 
 RectAreaLightUniformsLib.init();
 
@@ -38,9 +39,13 @@ function initThree() {
   });
   world.addContactMaterial(contactMat);
 
-  // Create multiple glass objects (books for now)
+  // Create multiple glass objects
+  const creators = [createBook, createPencil]
+
   for (let i = 0; i < 15; i++) {
-    const object = createBook();
+    
+    const createFn = creators[Math.floor(Math.random() * creators.length)];
+    const object = createFn();
 
     const x = randomBetween(-7, 7);
     const y = randomBetween(-4, 4);
@@ -56,7 +61,13 @@ function initThree() {
     });
 
     // Create approximate physics body (Box for book)
-    const shape = new CANNON.Box(new CANNON.Vec3(0.6, 0.8, 0.1));
+    let shape;
+    if (createFn === createBook) {
+      shape = new CANNON.Box(new CANNON.Vec3(0.6, 0.8, 0.1)); // Book size
+    } else if (createFn === createPencil) {
+      shape = new CANNON.Box(new CANNON.Vec3(0.1, 0.9, 0.1)); // Pencil size
+    }
+
     const body = new CANNON.Body({
       mass: 1,
       shape,
