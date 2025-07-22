@@ -10,7 +10,7 @@ initThree();
 // initRouter();
 
 // Or just inject basic HTML to test
-document.querySelector('#app').innerHTML = `
-  <h1>Welcome to Studiora</h1>
-  <p>Your student productivity toolkit.</p>
-`;
+// document.querySelector('#app').innerHTML = `
+//   <h1>Welcome to Studiora</h1>
+//   <p>Your student productivity toolkit.</p>
+// `;
