@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import * as CANNON from 'cannon-es';
 import { RectAreaLightHelper } from 'three/examples/jsm/helpers/RectAreaLightHelper.js';
 import { RectAreaLightUniformsLib } from 'three/examples/jsm/lights/RectAreaLightUniformsLib.js';
 
@@ -8,6 +9,7 @@ RectAreaLightUniformsLib.init();
 let scene, camera, renderer;
 let cubes = [];
 let clock = new THREE.Clock();
+let world, bodies = [];
 let spinSpeeds = [];
 
 function initThree() {
@@ -24,8 +26,19 @@ function initThree() {
   // renderer
   renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
   renderer.setSize(window.innerWidth,window.innerHeight);
-  renderer.setClearColor(0xffffff, 1);
+  renderer.setClearColor('black', 1);
   document.body.appendChild(renderer.domElement);
+  
+  // cannon-es physics world
+  world = new CANNON.World();
+  world.gravity.set(0,0,0);
+
+  const mat = new CANNON.Material('bouncy');
+  const contactMat = new CANNON.ContactMaterial(mat, mat, {
+    restitution: -1, // bounce
+    friction: 1,
+  });
+  world.addContactMaterial(contactMat);
 
   // objects
   const geometry = new THREE.BoxGeometry();
@@ -37,11 +50,12 @@ function initThree() {
 
   for (let i=0; i<15; i++) {
     const cube = new THREE.Mesh(geometry,material);
-    cube.position.set(
-      randomBetween(-7, 7),  
-      randomBetween(-4, 4),  
-      randomBetween(-5, 3)
-    );
+
+    const x = randomBetween(-7, 7);
+    const y = randomBetween(-4, 4);
+    const z = randomBetween(-5, 3);
+    cube.position.set(x, y, z);
+
     // cube.userData.baseY = cube.position.y;
     scene.add(cube);
     cubes.push(cube);
@@ -51,6 +65,25 @@ function initThree() {
       x: Math.random() * 0.001 + 0.001,
       y: Math.random() * 0.001 + 0.001
     });
+
+    // Physics body
+    const shape = new CANNON.Box(new CANNON.Vec3(0.5, 0.5, 0.5));
+    const body = new CANNON.Body({
+      mass: 1,
+      shape,
+      material: mat,
+      position: new CANNON.Vec3(x, y, z),
+      angularVelocity: new CANNON.Vec3(
+      randomBetween(-0.1, 0),
+      randomBetween(0, -0.1),
+      randomBetween(-0.1, 0)
+    ),
+      linearDamping: 0.01,
+      angularDamping: 0.01
+    });
+
+    world.addBody(body);
+    bodies.push(body);
   }
 
   // lighting
@@ -92,15 +125,24 @@ function initThree() {
 
   function animate() {
     requestAnimationFrame(animate);
-    const t = clock.getElapsedTime();
+    const delta = clock.getDelta();
 
-    cubes.forEach((cube, index) => {
-      light.rotation.z += 0.0005;
-      cube.rotation.x += spinSpeeds[index].x;
-      cube.rotation.y += spinSpeeds[index].y;
-    })
+    // Step physics
+    world.step(1 / 60, delta, 3);
+
+    // Sync mesh with physics body
+    for (let i = 0; i < cubes.length; i++) {
+      cubes[i].position.copy(bodies[i].position);
+      cubes[i].quaternion.copy(bodies[i].quaternion);
+
+      // Optional: Add small manual spin if you like
+      cubes[i].rotation.x += spinSpeeds[i].x;
+      cubes[i].rotation.y += spinSpeeds[i].y;
+    }
+    light.rotation.z += 0.0005;
     renderer.render(scene, camera);
   }
+
 }
 
 export default initThree;
