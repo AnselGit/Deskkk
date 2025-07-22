@@ -26,7 +26,7 @@ function initThree() {
   // renderer
   renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
   renderer.setSize(window.innerWidth,window.innerHeight);
-  renderer.setClearColor('black', 1);
+  renderer.setClearColor('ghostwhite', 1);
   document.body.appendChild(renderer.domElement);
   
   // cannon-es physics world
@@ -92,15 +92,15 @@ function initThree() {
   light.lookAt(0,0,0);
   scene.add(light);
 
-  const ambientLight = new THREE.AmbientLight('blue',0.3);
+  const ambientLight = new THREE.AmbientLight('white',0.3);
   scene.add(ambientLight);
 
-  const hemiLight = new THREE.HemisphereLight('violet', 'darkblue', 2);
+  const hemiLight = new THREE.HemisphereLight('white', 'white', 5);
   scene.add(hemiLight);
 
   // helper
   const lightHelper = new RectAreaLightHelper(light);
-  // scene.add(lightHelper);
+  scene.add(lightHelper);
 
 
 
@@ -139,7 +139,7 @@ function initThree() {
       cubes[i].rotation.x += spinSpeeds[i].x;
       cubes[i].rotation.y += spinSpeeds[i].y;
     }
-    light.rotation.z += 0.0005;
+    light.rotation.z += 0.0008;
     renderer.render(scene, camera);
   }
 
