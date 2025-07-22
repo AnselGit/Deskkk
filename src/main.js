@@ -25,8 +25,46 @@ function initThree() {
 
   for (let i=0; i<5; i++) {
     const cube = new THREE.Mesh(geometry,material);
-    cube.position.set(Math.random
+    cube.position.set(Math.random() * 4-2, Math.random() * 4-2, Math.random() * 2-1);
+    scene.add(cube);
+    cubes.push(cube);
   }
 
+  // lighting
+  const ambientLight = new THREE.ambientLight(0xffffff,0.6);
+  scene.add(ambientLight);
 
+  const pointLight = new THREE.pointLight(0xffffff,1);
+  pointLight.position.set(5,5,5);
+  scene.add(pointLight);
+
+  // controls
+
+  // handle window resizing
+  window.addEventListener('resize', onWindowResize);
+
+  // start animation
+
+
+
+
+  function onWindowResize() {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth,window.innerHeight);
+  }
+
+  function animate() {
+    requestAnimationFrame(animate);
+    const t = clock.getElapsedTime();
+
+    cube.foreach((cube, index) => {
+      cubes.rotate.x += 0.01;
+      cube.rotation.y += 0.01;
+      cube.position.y = Math.sin(t+index)*0.5; // floating effect
+    })
+    renderer.render(scene, camera);
+  }
 }
+
+export default initThree;
