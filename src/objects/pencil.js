@@ -18,13 +18,13 @@ export function createPencil() {
   });
 
   const tipMaterial = new THREE.MeshStandardMaterial({
-    color: new THREE.Color('#2b2b2b'), // Dark graphite
+    color: new THREE.Color('darkorange'), // Dark graphite
     metalness: 0.5,
     roughness: 0.4,
   });
 
   const eraserMaterial = new THREE.MeshStandardMaterial({
-    color: new THREE.Color('#ff8fa3'), // Soft pink eraser
+    color: new THREE.Color('hotpink'), // Soft pink eraser
     roughness: 0.6,
     metalness: 0.1,
   });
@@ -45,8 +45,8 @@ export function createPencil() {
   body.position.y = 0;
 
   // Tip (cone)
-  const tipHeight = 0.2;
-  const tipGeometry = new THREE.ConeGeometry(radius * 0.7, tipHeight, 20);
+  const tipHeight = 0.3;
+  const tipGeometry = new THREE.ConeGeometry(radius, tipHeight, 20);
   const tip = new THREE.Mesh(tipGeometry, tipMaterial);
   tip.rotation.x = Math.PI;
   tip.position.y = -bodyLength / 2 - tipHeight / 2;
@@ -55,7 +55,7 @@ export function createPencil() {
   const eraserHeight = 0.15;
   const eraserGeometry = new THREE.CylinderGeometry(radius * 1.05, radius * 1.05, eraserHeight, 32);
   const eraser = new THREE.Mesh(eraserGeometry, eraserMaterial);
-  eraser.position.y = bodyLength / 2 + eraserHeight / 2;
+  eraser.position.y = bodyLength / 1.9 + eraserHeight / 2;
 
   // Ferrule (metal band)
   const ferruleHeight = 0.08;
