@@ -8,16 +8,20 @@ export function createBook() {
   const coverThickness = 0.05;
   const coverWidth = 1.2;
   const coverHeight = 1.6;
-  const pageThickness = 0.01;
+  const pageThickness = 0.02;
   const pageInset = 0.08;
   const cornerRadius = 0.08;
-  const pageCount = 3;
+  const pageCount = 5;
   const pageGap = 0.012;
-  const coverBodyGap = 0.005; // Small spacing to avoid z-fighting
+  const coverBodyGap = 0.005;
+
+  // Random cover color
+  const coverColors = ['crimson', 'blue', 'green', 'blueviolet'];
+  const randomCoverColor = coverColors[Math.floor(Math.random() * coverColors.length)];
 
   // Materials
   const coverMaterial = new THREE.MeshPhysicalMaterial({
-    color: new THREE.Color('#4b1c78'),
+    color: new THREE.Color(randomCoverColor),
     transparent: true,
     opacity: 0.6,
     roughness: 0.1,
@@ -90,7 +94,7 @@ export function createBook() {
   const spineGeometry = new RoundedBoxGeometry(coverThickness, coverHeight, spineConnectorThickness, 3, cornerRadius * 0.5);
   const spineConnector = new THREE.Mesh(spineGeometry, coverMaterial);
   spineConnector.position.z = 0;
-  spineConnector.position.x = -coverWidth / 2 + coverThickness / 2; // align left edge (hinge side)
+  spineConnector.position.x = -coverWidth / 2 + coverThickness / 2;
 
   // Assemble book
   bookGroup.add(frontCover);

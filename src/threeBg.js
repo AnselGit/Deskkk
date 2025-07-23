@@ -4,11 +4,12 @@ import { RectAreaLightHelper } from 'three/examples/jsm/helpers/RectAreaLightHel
 import { RectAreaLightUniformsLib } from 'three/examples/jsm/lights/RectAreaLightUniformsLib.js';
 import { createBook } from './objects/book.js';
 import { createPencil } from './objects/pencil.js';
+import { createStickyNote } from './objects/stickyNote.js';
 
 RectAreaLightUniformsLib.init();
 
 let scene, camera, renderer;
-let objects = []; // renamed from cubes
+let objects = [];
 let clock = new THREE.Clock();
 let world, bodies = [];
 let spinSpeeds = [];
@@ -40,7 +41,7 @@ function initThree() {
   world.addContactMaterial(contactMat);
 
   // Create multiple glass objects
-  const creators = [createBook, createPencil]
+  const creators = [createBook, createPencil, createStickyNote]
 
   for (let i = 0; i < 15; i++) {
     
@@ -66,6 +67,8 @@ function initThree() {
       shape = new CANNON.Box(new CANNON.Vec3(0.6, 0.8, 0.1)); // Book size
     } else if (createFn === createPencil) {
       shape = new CANNON.Box(new CANNON.Vec3(0.1, 0.9, 0.1)); // Pencil size
+    } else if (createFn === createStickyNote) {
+      shape = new CANNON.Box(new CANNON.Vec3(0.45, 0.45, 0.005)); // StickyNote size
     }
 
     const body = new CANNON.Body({
