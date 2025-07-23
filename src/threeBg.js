@@ -5,6 +5,7 @@ import { RectAreaLightUniformsLib } from 'three/examples/jsm/lights/RectAreaLigh
 import { createBook } from './objects/book.js';
 import { createPencil } from './objects/pencil.js';
 import { createStickyNote } from './objects/stickyNote.js';
+import { createFlashCard } from './objects/flashCard.js';
 
 RectAreaLightUniformsLib.init();
 
@@ -41,7 +42,7 @@ function initThree() {
   world.addContactMaterial(contactMat);
 
   // Create multiple glass objects
-  const creators = [createBook, createPencil, createStickyNote]
+  const creators = [createBook, createPencil, createStickyNote, createFlashCard]
 
   for (let i = 0; i < 15; i++) {
     
@@ -69,6 +70,8 @@ function initThree() {
       shape = new CANNON.Box(new CANNON.Vec3(0.1, 0.9, 0.1)); // Pencil size
     } else if (createFn === createStickyNote) {
       shape = new CANNON.Box(new CANNON.Vec3(0.45, 0.45, 0.005)); // StickyNote size
+    } else if (createFn === createFlashCard) {
+      shape = new CANNON.Box(new CANNON.Vec3(0.8, 0.5, 0.05)); // FlashCard size
     }
 
     const body = new CANNON.Body({
