@@ -6,6 +6,7 @@ import { createBook } from './objects/book.js';
 import { createPencil } from './objects/pencil.js';
 import { createStickyNote } from './objects/stickyNote.js';
 import { createFlashCard } from './objects/flashCard.js';
+import { setupCameraOrbit } from './utils/cameraOrbit.js';
 
 RectAreaLightUniformsLib.init();
 
@@ -30,6 +31,9 @@ function initThree() {
   renderer.setClearColor('ghostwhite', 1);
   document.body.appendChild(renderer.domElement);
 
+  //cameraOrbit
+  const updateCameraOrbit = setupCameraOrbit(camera, renderer);
+
   // physics world
   world = new CANNON.World();
   world.gravity.set(0, 0, 0);
@@ -44,7 +48,7 @@ function initThree() {
   // Create multiple glass objects
   const creators = [createBook, createPencil, createStickyNote, createFlashCard]
 
-  for (let i = 0; i < 15; i++) {
+  for (let i = 0; i < 20; i++) {
     
     const createFn = creators[Math.floor(Math.random() * creators.length)];
     const object = createFn();
@@ -122,6 +126,8 @@ function initThree() {
     requestAnimationFrame(animate);
     const delta = clock.getDelta();
     world.step(1 / 60, delta, 3);
+
+    updateCameraOrbit();
 
     for (let i = 0; i < objects.length; i++) {
       objects[i].position.copy(bodies[i].position);
