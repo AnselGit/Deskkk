@@ -17,7 +17,7 @@ export function createFlashCard() {
   const randomChar = symbols[Math.floor(Math.random() * symbols.length)];
 
   const cardMaterial = new THREE.MeshPhysicalMaterial({
-    color: new THREE.Color('red'),
+    color: new THREE.Color('white'),
     transparent: true,
     opacity: 0.2,
     roughness: 0.1,
