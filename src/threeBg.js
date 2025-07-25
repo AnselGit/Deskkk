@@ -2,57 +2,55 @@ import * as THREE from 'three';
 import * as CANNON from 'cannon-es';
 import { RectAreaLightHelper } from 'three/examples/jsm/helpers/RectAreaLightHelper.js';
 import { RectAreaLightUniformsLib } from 'three/examples/jsm/lights/RectAreaLightUniformsLib.js';
+
 import { createBook } from './objects/book.js';
 import { createPencil } from './objects/pencil.js';
 import { createStickyNote } from './objects/stickyNote.js';
 import { createFlashCard } from './objects/flashCard.js';
+
 import { setupCameraOrbit } from './utils/cameraOrbit.js';
 import { getResponsiveCameraZ, handleResizeLerp, updateCameraZLerp } from './utils/responsiveCam.js';
 
 RectAreaLightUniformsLib.init();
 
-let scene, camera, renderer;
-let objects = [];
-let clock = new THREE.Clock();
-let world, bodies = [];
-let spinSpeeds = [];
+let scene, camera, renderer, world;
+let objects = [], bodies = [], spinSpeeds = [];
+const clock = new THREE.Clock();
 
 function initThree() {
-  // scene
+  // --- Scene ---
   scene = new THREE.Scene();
 
-  // camera
+  // --- Camera ---
   camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
   camera.position.z = 5;
   camera.lookAt(0, 0, getResponsiveCameraZ());
-  // Handle window resize
   window.addEventListener('resize', () => handleResizeLerp(camera));
 
-  // renderer
+  // --- Renderer ---
   renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setClearColor('ghostwhite', 1);
   document.body.appendChild(renderer.domElement);
 
-  //cameraOrbit
+  // --- Camera Orbit ---
   const updateCameraOrbit = setupCameraOrbit(camera, renderer);
 
-  // physics world
+  // --- Physics World ---
   world = new CANNON.World();
   world.gravity.set(0, 0, 0);
 
   const mat = new CANNON.Material('bouncy');
   const contactMat = new CANNON.ContactMaterial(mat, mat, {
     restitution: -1,
-    friction: 1,
+    friction: 1
   });
   world.addContactMaterial(contactMat);
 
-  // Create multiple glass objects
-  const creators = [createBook, createPencil, createStickyNote, createFlashCard]
+  // --- Objects Creation ---
+  const creators = [createBook, createPencil, createStickyNote, createFlashCard];
 
-  for (let i = 0; i < 20; i++) {
-    
+  for (let i = 0; i < 30; i++) {
     const createFn = creators[Math.floor(Math.random() * creators.length)];
     const object = createFn();
 
@@ -69,7 +67,6 @@ function initThree() {
       y: Math.random() * 0.001 + 0.001
     });
 
-    // Create approximate physics body (Box for book)
     let shape;
     if (createFn === createBook) {
       shape = new CANNON.Box(new CANNON.Vec3(0.6, 0.8, 0.1)); // Book size
@@ -99,7 +96,7 @@ function initThree() {
     bodies.push(body);
   }
 
-  // lights
+  // --- Lighting ---
   const light = new THREE.RectAreaLight('white', 100, 50, 1);
   light.position.set(0, 0, 6);
   light.lookAt(0, 0, 0);
@@ -107,14 +104,14 @@ function initThree() {
 
   scene.add(new THREE.AmbientLight('white', 0.3));
   scene.add(new THREE.HemisphereLight('white', 'white', 5));
-  scene.add(new RectAreaLightHelper(light));
 
-  // Resize handling
+  // --- Resize Handling ---
   window.addEventListener('resize', onWindowResize);
 
+  // --- Start Animation Loop ---
   animate();
 
-  // --- Helper functions ---
+  // --- Utility Functions ---
   function randomBetween(min, max) {
     return Math.random() * (max - min) + min;
   }
@@ -127,6 +124,7 @@ function initThree() {
 
   function animate() {
     requestAnimationFrame(animate);
+
     const delta = clock.getDelta();
     world.step(1 / 60, delta, 3);
 
