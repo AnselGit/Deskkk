@@ -7,6 +7,7 @@ import { createPencil } from './objects/pencil.js';
 import { createStickyNote } from './objects/stickyNote.js';
 import { createFlashCard } from './objects/flashCard.js';
 import { setupCameraOrbit } from './utils/cameraOrbit.js';
+import { getResponsiveCameraZ, handleResizeLerp, updateCameraZLerp } from './utils/responsiveCam.js';
 
 RectAreaLightUniformsLib.init();
 
@@ -23,7 +24,9 @@ function initThree() {
   // camera
   camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
   camera.position.z = 5;
-  camera.lookAt(0, 0, 0);
+  camera.lookAt(0, 0, getResponsiveCameraZ());
+  // Handle window resize
+  window.addEventListener('resize', () => handleResizeLerp(camera));
 
   // renderer
   renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -128,6 +131,7 @@ function initThree() {
     world.step(1 / 60, delta, 3);
 
     updateCameraOrbit();
+    updateCameraZLerp(camera);
 
     for (let i = 0; i < objects.length; i++) {
       objects[i].position.copy(bodies[i].position);
