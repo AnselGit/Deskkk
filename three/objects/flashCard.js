@@ -51,7 +51,7 @@ export function createFlashCard() {
 
   // Load Font and Create Text Geometry
   const loader = new FontLoader();
-  loader.load('/fonts/helvetiker_bold.typeface.json', (font) => {
+  loader.load('/assets/fonts/helvetiker_bold.typeface.json', (font) => {
     const textGeo = new TextGeometry(randomChar, {
       font: font,
       size: 0.5,
