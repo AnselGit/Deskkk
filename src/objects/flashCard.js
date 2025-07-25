@@ -16,6 +16,10 @@ export function createFlashCard() {
   const symbols = ['+', '-', '×', '÷', 'A', 'B', 'C', 'D'];
   const randomChar = symbols[Math.floor(Math.random() * symbols.length)];
 
+  // Random font color
+  const fontColors = ['red', 'blue', 'lime', 'violet'];
+  const randomFontColor = fontColors[Math.floor(Math.random() * fontColors.length)];
+
   const cardMaterial = new THREE.MeshPhysicalMaterial({
     color: new THREE.Color('white'),
     transparent: true,
@@ -26,13 +30,18 @@ export function createFlashCard() {
     ior: 1.4,
     clearcoat: 1,
     clearcoatRoughness: 0,
-    });
+  });
 
-  // Character Material
+  // Character Material with random color
   const charMaterial = new THREE.MeshStandardMaterial({
-    color: new THREE.Color('white'),
-    roughness: 0.3,
-    metalness: 0.4,
+    color: new THREE.Color(randomFontColor),
+    roughness: 0.5,
+    metalness: 0.2,
+    transparent: true,
+    opacity: 0.6,
+    transmission: 1.0,
+    ior: 1.2,
+    reflectivity: 0.05,
   });
 
   // Card Body
@@ -42,24 +51,24 @@ export function createFlashCard() {
 
   // Load Font and Create Text Geometry
   const loader = new FontLoader();
-    loader.load('/fonts/helvetiker_bold.typeface.json', (font) => {
-        const textGeo = new TextGeometry(randomChar, {
-            font: font,
-            size: 0.5,
-            depth: 0.1,
-            curveSegments: 6,
-            bevelEnabled: true,
-            bevelThickness: 0.002,
-            bevelSize: 0.001,
-            bevelSegments: 1,
-        });
-
-        textGeo.center(); // ✅ centers it nicely
-
-        const textMesh = new THREE.Mesh(textGeo, charMaterial);
-        textMesh.position.z = 0
-        cardGroup.add(textMesh);
+  loader.load('/fonts/helvetiker_bold.typeface.json', (font) => {
+    const textGeo = new TextGeometry(randomChar, {
+      font: font,
+      size: 0.5,
+      depth: 0.1,
+      curveSegments: 6,
+      bevelEnabled: true,
+      bevelThickness: 0.002,
+      bevelSize: 0.001,
+      bevelSegments: 1,
     });
+
+    textGeo.center(); //
+
+    const textMesh = new THREE.Mesh(textGeo, charMaterial);
+    textMesh.position.z = 0;
+    cardGroup.add(textMesh);
+  });
 
   return cardGroup;
 }
