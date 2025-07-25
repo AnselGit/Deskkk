@@ -11,7 +11,7 @@ export function createBook() {
   const pageThickness = 0.02;
   const pageInset = 0.08;
   const cornerRadius = 0.08;
-  const pageCount = 5;
+  const pageCount = 10;
   const pageGap = 0.012;
   const coverBodyGap = 0.005;
 
@@ -33,21 +33,17 @@ export function createBook() {
     clearcoatRoughness: 0.1,
   });
 
-  const pageMaterial = new THREE.MeshPhysicalMaterial({
-    color: new THREE.Color('white'),
+  const bodyMaterial = new THREE.MeshStandardMaterial({
+    color: new THREE.Color('#d3bfff'),
+    roughness: 0.5,
+    metalness: 0.2,
     transparent: true,
-    opacity: 0.8,
+    opacity: 0.1,
     roughness: 0.3,
     transmission: 1.0,
     ior: 1.2,
     thickness: 0.1,
     reflectivity: 0.05,
-  });
-
-  const bodyMaterial = new THREE.MeshStandardMaterial({
-    color: new THREE.Color('#d3bfff'),
-    roughness: 0.5,
-    metalness: 0.2,
   });
 
   // Total thickness of all pages
@@ -71,7 +67,6 @@ export function createBook() {
         3,
         cornerRadius * 0.3
       ),
-      pageMaterial
     );
     page.position.z = pagesStartZ + i * (pageThickness + pageGap);
     bookGroup.add(page);
