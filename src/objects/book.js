@@ -16,7 +16,7 @@ export function createBook() {
   const coverBodyGap = 0.005;
 
   // Random cover color
-  const coverColors = ['red', 'blue', 'darkgreen', 'indigo'];
+  const coverColors = ['red', 'blue', 'lime', 'violet'];
   const randomCoverColor = coverColors[Math.floor(Math.random() * coverColors.length)];
 
   // Materials
