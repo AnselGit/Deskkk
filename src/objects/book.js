@@ -39,7 +39,6 @@ export function createBook() {
     metalness: 0.2,
     transparent: true,
     opacity: 0.1,
-    roughness: 0.3,
     transmission: 1.0,
     ior: 1.2,
     thickness: 0.1,
