@@ -39,9 +39,6 @@ export function createFlashCard() {
     metalness: 0.2,
     transparent: true,
     opacity: 0.6,
-    transmission: 1.0,
-    ior: 1.2,
-    reflectivity: 0.05,
   });
 
   // Card Body

@@ -16,4 +16,5 @@ export function loadHero(onContinue) {
   document.getElementById('hero-cta').addEventListener('click', () => {
     onContinue(div);
   });
+  return div;
 }
