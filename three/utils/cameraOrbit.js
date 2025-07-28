@@ -23,8 +23,8 @@ export function setupCameraOrbit(camera, renderer, orbitCenter = new THREE.Vecto
   });
 
   return function updateCameraOrbit() {
-    const horizontalStrength = 0.4;
-    const verticalStrength = 0.9;
+    const horizontalStrength = 0.5;
+    const verticalStrength = 2.5;
     const decay = 0.09;
 
     // Smoothly interpolate mouse values
