@@ -12,4 +12,5 @@ export function loadAuth(onContinue) {
   document.getElementById('auth-next').addEventListener('click', () => {
     onContinue(div);
   });
+  return div;
 }
