@@ -1,15 +1,19 @@
 export function loadHero(onContinue) {
   const div = document.createElement('div');
   div.id = 'hero';
-  div.className = 'section';
+  div.className = 'section section--hero';
+
   div.innerHTML = `
-    <h1>Welcome to the 3D Desk</h1>
-    <p>Organize. Learn. Explore.</p>
-    <button id="cta">Get Started</button>
+    <div class="hero">
+      <h1 class="hero__title">Welcome to Deskkk</h1>
+      <p class="hero__subtitle">Organize. Learn. Explore.</p>
+      <button class="hero__cta-btn" id="hero-cta">Get Started</button>
+    </div>
   `;
+
   document.body.appendChild(div);
 
-  document.getElementById('cta').addEventListener('click', () => {
+  document.getElementById('hero-cta').addEventListener('click', () => {
     onContinue(div);
   });
 }

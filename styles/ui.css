@@ -1,18 +1,50 @@
+@font-face {
+  font-family: 'Satoshi';
+  src: url('/assets/fonts/Satoshi-Black.otf') format(opentype);
+  font-weight: 900;
+}
+
 .section {
   position: absolute;
   top: 0; left: 0;
   width: 100vw;
   height: 100vh;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  color: white;
-  backdrop-filter: blur(6px);
-  background-color: rgba(0, 0, 0, 0.3);
   z-index: 10;
-  opacity: 1;
   transition: opacity 1s ease;
+}
+
+.hero {
+  text-align: center;
+}
+
+.hero__title {
+  font-family: 'Satoshi';
+  font-size: 8rem;
+  margin-bottom: 1rem;
+  color: black;
+}
+
+.hero__subtitle {
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+}
+
+.hero__cta-btn {
+  padding: 0.8rem 2rem;
+  font-size: 1rem;
+  background: #00bcd4;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.hero__cta-btn:hover {
+  background: #008ba3;
 }
 
 .fade-out {
