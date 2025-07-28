@@ -47,9 +47,9 @@ function showSection(name) {
     console.error(`[showSection] "${name}" did not return a valid DOM element`, el);
     return;
   }
-  
+
   document.body.appendChild(el);
-  fadeIn(el);
+  fadeIn(el, 500);
 }
 
 // 4️⃣ Handles camera + section transition
