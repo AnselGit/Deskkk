@@ -1,6 +1,12 @@
 @font-face {
+  font-family: 'Satoshi-Black';
+  src: url('/assets/fonts/Satoshi-Black.otf') format('opentype');
+  font-weight: 900;
+}
+
+@font-face {
   font-family: 'Satoshi';
-  src: url('/assets/fonts/Satoshi-Black.otf') format(opentype);
+  src: url('/assets/fonts/Satoshi-Black.otf') format('opentype');
   font-weight: 900;
 }
 
@@ -13,15 +19,30 @@
   justify-content: center;
   align-items: center;
   z-index: 10;
-  transition: opacity 1s ease;
+
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  pointer-events: none;
 }
+
+.section--visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.fade-out {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* HERO STYLES */
 
 .hero {
   text-align: center;
 }
 
 .hero__title {
-  font-family: 'Satoshi';
+  font-family: 'Satoshi-Black';
   font-size: 8rem;
   margin-bottom: 1rem;
   color: black;
@@ -46,20 +67,3 @@
 .hero__cta-btn:hover {
   background: #008ba3;
 }
-
-.fade-out {
-  opacity: 0;
-  pointer-events: none;
-}
-
-.fade-in {
-  opacity: 0;
-  pointer-events: none;
-}
-
-.section--visible {
-  opacity: 1;
-  pointer-events: all;
-  transition: opacity 1s ease;
-}
-
