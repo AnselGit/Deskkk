@@ -151,3 +151,4 @@ function initThree() {
 }
 
 export default initThree;
+export { renderer };

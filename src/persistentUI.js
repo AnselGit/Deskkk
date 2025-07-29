@@ -1,17 +1,21 @@
-export function initPersistentUI(onNext, onBack, onToggleDark) {
+export function loadBase(onNext, onBack, onToggle) {
   const div = document.createElement('div');
   div.className = 'persistent-ui';
 
   div.innerHTML = `
-    <div class="container">
-        <input type="checkbox" name="checkbox" id="checkbox" />
-        <label for="checkbox" class="label"> </label>
-    </div>
+    <div class="theme">
+      <label class="theme__label">
+        <input type="checkbox" class="theme__checkbox" />
+        <span class="theme__slider"></span>
+      </label>
+    </div> 
   `;
 
   document.body.appendChild(div);
 
-  div.querySelector('.back-btn').addEventListener('click', onBack);
-  div.querySelector('.next-btn').addEventListener('click', onNext);
-  div.querySelector('.dark-toggle').addEventListener('click', onToggleDark);
+  // div.querySelector('.back-btn').addEventListener('click', onBack);
+  // div.querySelector('.next-btn').addEventListener('click', onNext);
+  // div.querySelector('#checkbox').addEventListener('change', onToggle);
+
+  return div
 }
