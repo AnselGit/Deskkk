@@ -1,4 +1,5 @@
-import '../styles/ui.css';
+import '../styles/hero.css';
+
 import initThree from '../three/threeBg.js';
 import { moveCameraForward } from '../three/utils/transitionCam.js';
 import { fadeIn, fadeOut } from './effects.js';
