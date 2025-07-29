@@ -1,12 +1,12 @@
 import '../styles/hero.css';
-import '../styles/persistentUI.css'
+import '../styles/navTray.css'
 
 import initThree from '../three/threeBg.js';
 import { moveCameraForward } from '../three/utils/transitionCam.js';
 import { fadeIn, fadeOut } from './effects.js';
 import { NavHandlers } from './functions.js'
 
-import { loadBase } from './persistentUI.js'
+import { loadBase } from './navTray.js'
 
 import { loadHero } from '../ui/hero.js';
 import { loadAuth } from '../ui/auth.js';
