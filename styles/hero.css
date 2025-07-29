@@ -101,7 +101,7 @@
   color: var(--c-color);
   background: radial-gradient(circle, var(--c-radial-inner), var(--c-radial-outer) 80%);
   box-shadow: 0 0 14px var(--c-shadow);
-  transition: background 0.3s ease;
+  transition: transform 0.3s ease;
 }
 
 .uiverse:before {
@@ -234,6 +234,10 @@
   --x: 52px;
   --y: 4px;
   --animation: circle-12;
+}
+
+.uiverse:hover {
+  transform: scale(1.05);
 }
 
 @keyframes circle-1 {

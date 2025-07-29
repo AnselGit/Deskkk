@@ -23,3 +23,21 @@ export function fadeOut(el, callback) {
     if (callback) callback();
   }, { once: true });
 }
+
+// light or dark mode
+let currentMode = 'light';
+
+export function setDarkMode(renderer, isDark = true) {
+  currentMode = isDark ? 'dark' : 'light';
+
+  if (isDark) {
+    renderer.setClearColor('#1a1a1a', 1); // Dark background
+    // Optional: adjust lighting/fog here if needed
+  } else {
+    renderer.setClearColor('ghostwhite', 1); // Light mode
+  }
+}
+
+export function toggleDarkMode(renderer) {
+  setDarkMode(renderer, currentMode === 'light');
+}

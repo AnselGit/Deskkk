@@ -69,3 +69,4 @@ function transitionToNext(currentDOMElement) {
 
 // 5️⃣ Start the app
 showSection('hero');
+     

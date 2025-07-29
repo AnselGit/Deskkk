@@ -111,6 +111,11 @@ function initThree() {
   // --- Start Animation Loop ---
   animate();
 
+  return renderer;
+
+
+
+
   // --- Utility Functions ---
   function randomBetween(min, max) {
     return Math.random() * (max - min) + min;
