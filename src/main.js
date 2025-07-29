@@ -1,8 +1,12 @@
 import '../styles/hero.css';
+import '../styles/persistentUI.css'
 
 import initThree from '../three/threeBg.js';
 import { moveCameraForward } from '../three/utils/transitionCam.js';
 import { fadeIn, fadeOut } from './effects.js';
+import { NavHandlers } from './functions.js'
+
+import { loadBase } from './persistentUI.js'
 
 import { loadHero } from '../ui/hero.js';
 import { loadAuth } from '../ui/auth.js';
@@ -10,10 +14,10 @@ import { loadDesk } from '../ui/desk.js';
 import { loadDrills } from '../ui/drills.js';
 import { loadFlips } from '../ui/flips.js';
 
-// 1️⃣ Initialize 3D background
+// Initialize 3D background
 initThree();
 
-// 2️⃣ Centralized app state manager
+// Centralized app state manager
 const appState = {
   currentIndex: 0,
   sections: ['hero', 'auth', 'desk', 'drills', 'flips'],
@@ -31,7 +35,7 @@ const appState = {
   }
 };
 
-// 3️⃣ UI section loader
+// UI section loader
 function showSection(name) {
   let el;
 
@@ -53,7 +57,7 @@ function showSection(name) {
   fadeIn(el, 500);
 }
 
-// 4️⃣ Handles camera + section transition
+// Handles camera + section transition
 function transitionToNext(currentDOMElement) {
   fadeOut(currentDOMElement, () => {
     currentDOMElement.remove();
@@ -67,6 +71,15 @@ function transitionToNext(currentDOMElement) {
   moveCameraForward(10, 1.5);
 }
 
-// 5️⃣ Start the app
+// Create navigation handlers
+const renderer = initThree;
+const { goNext, goPrev, goToggle } =
+  NavHandlers({ appState, showSection, transitionToNext, renderer });
+
+// Init persistent UI and launch
+loadBase(goNext, goPrev, goToggle);
+showSection('hero');
+
+// Start the app
 showSection('hero');
      
