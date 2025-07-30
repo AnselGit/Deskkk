@@ -1,3 +1,4 @@
+
 export function fadeIn(el, delay = 0) {
   if (!el) return;
 
@@ -31,7 +32,7 @@ export function setDarkMode(renderer, isDark = true) {
   currentMode = isDark ? 'dark' : 'light';
 
   if (isDark) {
-    renderer.setClearColor('#1a1a1a', 1); // Dark background
+    renderer.setClearColor('#444444', 1); // Dark background
     // Optional: adjust lighting/fog here if needed
   } else {
     renderer.setClearColor('ghostwhite', 1); // Light mode

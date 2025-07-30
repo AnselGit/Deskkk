@@ -6,7 +6,7 @@ import { moveCameraForward } from '../three/utils/transitionCam.js';
 import { fadeIn, fadeOut } from './effects.js';
 import { NavHandlers } from './functions.js'
 
-import { loadBase } from './navTray.js'
+import { loadNav } from './navTray.js'
 
 import { loadHero } from '../ui/hero.js';
 import { loadAuth } from '../ui/auth.js';
@@ -15,7 +15,7 @@ import { loadDrills } from '../ui/drills.js';
 import { loadFlips } from '../ui/flips.js';
 
 // Initialize 3D background
-initThree();
+initThree();  
 
 // Centralized app state manager
 const appState = {
@@ -72,12 +72,12 @@ function transitionToNext(currentDOMElement) {
 }
 
 // Create navigation handlers
-const renderer = initThree;
+const renderer = initThree();
 const { goNext, goPrev, goToggle } =
   NavHandlers({ appState, showSection, transitionToNext, renderer });
 
 // Init persistent UI and launch
-loadBase(goNext, goPrev, goToggle);
+loadNav(goNext, goPrev, goToggle);
 showSection('hero');
 
 // Start the app

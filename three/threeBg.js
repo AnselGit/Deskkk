@@ -17,7 +17,7 @@ let scene, camera, renderer, world;
 let objects = [], bodies = [], spinSpeeds = [];
 const clock = new THREE.Clock();
 
-function initThree() {
+export default function initThree() {
   // --- Scene ---
   scene = new THREE.Scene();
 
@@ -148,7 +148,5 @@ function initThree() {
     light.rotation.z += 0.0008;
     renderer.render(scene, camera);
   }
+  return renderer;
 }
-
-export default initThree;
-export { renderer };
