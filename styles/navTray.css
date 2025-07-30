@@ -1,51 +1,70 @@
-html, body {
-  margin: 0;
-  padding: 0;
-  width: auto;
-  height: auto;
-  pointer-events: none; /* Prevents tray from blocking background UI */
-}
-
 .tray {
   position: fixed;
   top: 1rem;
   right: 1rem;
+  display: grid;
+  grid-template-columns: auto auto auto;
+  gap: 10px;
   z-index: 9999;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  pointer-events: auto; /* Enables interaction */
+  pointer-events: auto;
+  align-items: center;
+  margin-right: 8px;
 }
 
 .tray__item {
-  background: rgba(255, 255, 255, 0.1); /* optional: styling */
-  backdrop-filter: blur(10px);
-  border-radius: 0.5rem;
-  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
+.tray__item--theme {
+  align-self: center;
+}
+
+img {
+  width: 20px;
+  height: 20px;
+}
+
+.nav__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 17px;
+  margin-top: 5px;
+  font-weight: bold;
+  border-radius: 20px;
+  background-color: var(--btn-bg, #222);
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
 
 
 
 
 .theme {
   position: relative;
-  width: 100px;
-  height: 50px;
+  width: 49px;
+  height: 24px;
+  display: inline-block;
+  vertical-align: middle;
 
-  --color-light: #d8dbe0;
+  --color-light: ghostwhite;
   --color-dark: #28292c;
   --color-link: rgb(27, 129, 112);
   --color-link-hover: rgb(24, 94, 82);
 }
 
 .theme__label {
-  position: absolute;
   width: 100%;
   height: 100%;
   background-color: var(--color-dark);
-  border-radius: 25px;
+  border-radius: 14px;
   cursor: pointer;
-  border: 3px solid var(--color-dark);
+  border: 2px solid var(--color-dark);
+  position: absolute;
 }
 
 .theme__checkbox {
@@ -57,7 +76,7 @@ html, body {
   position: absolute;
   width: 100%;
   height: 100%;
-  border-radius: 25px;
+  border-radius: 14px;
   transition: 0.3s;
 }
 
@@ -68,18 +87,19 @@ html, body {
 .theme__slider::before {
   content: "";
   position: absolute;
-  top: 10px;
-  left: 10px;
-  width: 25px;
-  height: 25px;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
-  box-shadow: inset 12px -4px 0px 0px var(--color-light);
   background-color: var(--color-dark);
+  box-shadow: inset 7px -2px 0px 0px var(--color-light);
   transition: 0.3s;
 }
 
 .theme__checkbox:checked ~ .theme__slider::before {
-  transform: translateX(50px);
+  transform: translateX(25px);
   background-color: var(--color-dark);
   box-shadow: none;
 }
+

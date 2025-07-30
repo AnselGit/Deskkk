@@ -5,21 +5,27 @@ export function loadBase(onNext, onBack, onToggle) {
   div.innerHTML = `
 
     <body>
-      <div class="tray">
-        <div class="tray__item tray__item--theme">
-          <div class="theme">
-            <label class="theme__label">
-              <input type="checkbox" class="theme__checkbox" />
-              <span class="theme__slider"></span>
-            </label>          
-          </div>
-        </div>
-        <div class="tray__item tray__item--nav">
-          <button class="nav__btn nav__btn--back">Back</button>
-          <button class="nav__btn nav__btn--next">Next</button>
+    <div class="tray">
+      <div class="tray__item tray__item--prev">
+        <button class="nav__btn nav__btn--back">
+          <img src="/assets/prev.png" alt="back" class="nav__icon--back">
+        </button>
+      </div>
+      <div class="tray__item tray__item--next">
+        <button class="nav__btn nav__btn--next">
+          <img src="/assets/next.png" alt="next class="nav__icon--next">
+        </button>
+      </div>
+      <div class="tray__item tray__item--theme">
+        <div class="theme">
+          <label class="theme__label">
+            <input type="checkbox" class="theme__checkbox" />
+            <span class="theme__slider"></span>
+          </label>
         </div>
       </div>
-    </body>
+    </div>
+  </body>
 
   `;
 
