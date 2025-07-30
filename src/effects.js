@@ -1,3 +1,5 @@
+import * as THREE from 'three';
+import { gsap } from 'gsap';
 
 export function fadeIn(el, delay = 0) {
   if (!el) return;
@@ -30,13 +32,16 @@ let currentMode = 'light';
 
 export function setDarkMode(renderer, isDark = true) {
   currentMode = isDark ? 'dark' : 'light';
+  const fromColor = renderer.getClearColor(new THREE.Color());
+  const toColor = new THREE.Color(isDark ? '#1a1a1a' : 'ghostwhite');
 
-  if (isDark) {
-    renderer.setClearColor('#444444', 1); // Dark background
-    // Optional: adjust lighting/fog here if needed
-  } else {
-    renderer.setClearColor('ghostwhite', 1); // Light mode
-  }
+  gsap.to(fromColor, {
+    r: toColor.r,
+    g: toColor.g,
+    b: toColor.b,
+    duration: 1,
+    onUpdate: () => renderer.setClearColor(fromColor, 1)
+  });
 }
 
 export function toggleDarkMode(renderer) {
