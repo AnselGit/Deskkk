@@ -19,7 +19,7 @@ export function loadNav(onNext, onBack, onToggle) {
         <button class="nav__btn nav__btn--next" id="next">
           <svg class="nav__icon--next" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
             <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
+          </svg>  
         </button>
       </div>
 

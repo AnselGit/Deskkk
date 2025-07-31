@@ -26,13 +26,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 4px 17px;
+  padding: 4px 16px;
   margin-top: 5px;
   font-weight: bold;
+  border: 1px solid ghostwhite;
   border-radius: 20px;
   background-color: var(--btn-bg, #222);
   color: white;
-  border: none;
   cursor: pointer;
   transition: transform 0.3s ease;
 }
