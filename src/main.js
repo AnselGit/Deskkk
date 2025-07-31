@@ -1,6 +1,7 @@
 // ✅ 1. Styles (order doesn't matter as long as it's before logic)
-import '../styles/hero.css';
 import '../styles/navTray.css';
+import '../styles/hero.css';
+import '../styles/auth.css';
 
 // ✅ 2. Core logic and libraries
 import initThree from '../three/threeBg.js';
@@ -104,4 +105,4 @@ const { goNext, goPrev, goToggle } =
   NavHandlers({ appState, showSection, transitionToNext, renderer });
 
 loadNav(goNext, goPrev, goToggle);
-showSection('hero');
+showSection('auth');

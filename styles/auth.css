@@ -1,0 +1,40 @@
+/* Container with glass effect */
+.auth__glass {
+  max-width: 400px;
+  margin: 10vh auto;
+  padding: 2rem;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.1); /* transparent white */
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: black;
+  text-align: center;
+}
+
+/* Title + Paragraph */
+.auth__glass h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+.auth__glass p {
+  font-size: 1rem;
+  margin-bottom: 2rem;
+}
+
+/* Button Styling */
+.auth__btn {
+  padding: 10px 24px;
+  border: none;
+  border-radius: 12px;
+  background: rgba(11, 194, 240, 0.25);
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+.auth__btn:hover {
+  transform: scale(1.05);
+  background: rgba(255, 255, 255, 0.4);
+}
