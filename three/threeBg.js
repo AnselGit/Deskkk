@@ -19,16 +19,16 @@ const clock = new THREE.Clock();
 
 export default function initThree() {
   // --- Scene ---
-  scene = new THREE.Scene();
+  const scene = new THREE.Scene();
 
   // --- Camera ---
-  camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+  const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
   camera.position.z = 5;
   camera.lookAt(0, 0, getResponsiveCameraZ());
   window.addEventListener('resize', () => handleResizeLerp(camera));
 
   // --- Renderer ---
-  renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setClearColor('ghostwhite', 1);
   document.body.appendChild(renderer.domElement);
@@ -110,9 +110,8 @@ export default function initThree() {
 
   // --- Start Animation Loop ---
   animate();
-
-  return renderer;
-
+  
+  return { camera, renderer };
 
 
 
@@ -148,5 +147,4 @@ export default function initThree() {
     light.rotation.z += 0.0008;
     renderer.render(scene, camera);
   }
-  return renderer;
 }

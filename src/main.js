@@ -1,23 +1,37 @@
+// ✅ 1. Styles (order doesn't matter as long as it's before logic)
 import '../styles/hero.css';
-import '../styles/navTray.css'
+import '../styles/navTray.css';
 
+// ✅ 2. Core logic and libraries
 import initThree from '../three/threeBg.js';
 import { moveCameraForward } from '../three/utils/transitionCam.js';
 import { fadeIn, fadeOut } from './effects.js';
-import { NavHandlers } from './functions.js'
+import { NavHandlers } from './functions.js';
 
-import { loadNav } from './navTray.js'
-
+// ✅ 3. UI loaders
+import { loadNav } from './navTray.js';
 import { loadHero } from '../ui/hero.js';
 import { loadAuth } from '../ui/auth.js';
 import { loadDesk } from '../ui/desk.js';
 import { loadDrills } from '../ui/drills.js';
 import { loadFlips } from '../ui/flips.js';
 
-// Initialize 3D background
-initThree();  
 
-// Centralized app state manager
+
+
+// ✅ 4. Initialize 3D background
+const { renderer, camera } = initThree();
+
+// ✅ 5. Section-specific camera transitions
+const sectionTransitions = {
+  hero: null,
+  auth: null,
+  desk: { camera: { z: -10, duration: 1.5 } },
+  drills: { camera: { z: -5, duration: 1 } },
+  flips: { camera: { z: -7, duration: 1.2 } }
+};
+
+// ✅ 6. Centralized app state
 const appState = {
   currentIndex: 0,
   sections: ['hero', 'auth', 'desk', 'drills', 'flips'],
@@ -32,10 +46,18 @@ const appState = {
       return this.getCurrent();
     }
     return null;
+  },
+
+  prev() {
+    if (this.currentIndex > 0) {
+      this.currentIndex--;
+      return this.getCurrent();
+    }
+    return null;
   }
 };
 
-// UI section loader
+// ✅ 7. UI section loader
 function showSection(name) {
   let el;
 
@@ -57,29 +79,29 @@ function showSection(name) {
   fadeIn(el, 500);
 }
 
-// Handles camera + section transition
+// ✅ 8. Camera + section transition
 function transitionToNext(currentDOMElement) {
+  const currentSection = appState.getCurrent();
+  const nextSection = appState.sections[appState.currentIndex + 1];
+
   fadeOut(currentDOMElement, () => {
     currentDOMElement.remove();
-
-    const nextSection = appState.next();
-    if (nextSection) {
-      showSection(nextSection);
+    const next = appState.next();
+    if (next) {
+      showSection(next);
     }
   });
 
-  moveCameraForward(10, 1.5);
+  const transition = sectionTransitions[nextSection];
+  if (transition?.camera) {
+    const { z, duration } = transition.camera;
+    moveCameraForward(camera, z, duration);
+  }
 }
 
-// Create navigation handlers
-const renderer = initThree();
+// ✅ 9. Init nav + start app
 const { goNext, goPrev, goToggle } =
   NavHandlers({ appState, showSection, transitionToNext, renderer });
 
-// Init persistent UI and launch
 loadNav(goNext, goPrev, goToggle);
 showSection('hero');
-
-// Start the app
-showSection('hero');
-     

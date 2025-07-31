@@ -1,6 +1,10 @@
 import { fadeOut } from './effects.js';
 import { moveCameraForward } from '../three/utils/transitionCam.js';
 import { toggleDarkMode } from './effects.js';
+import { Camera } from 'three';
+import initThree from '../three/threeBg.js';
+
+const { renderer, camera } = initThree();
 
 // Accept these dependencies from main.js
 export function NavHandlers({ appState, showSection, transitionToNext, renderer }) {
@@ -14,7 +18,7 @@ export function NavHandlers({ appState, showSection, transitionToNext, renderer 
       if (prev) showSection(prev);
     });
 
-    moveCameraForward(-10, 1.5); // optional reverse movement
+    moveCameraForward( camera, -10, 1.5); 
   }
 
   function goNext() {

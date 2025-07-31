@@ -1,4 +1,4 @@
-export function moveCameraForward(distance = 10, duration = 1.5, callback) {
+export function moveCameraForward(camera, distance = 10, duration = 1.5, callback) {
   const startZ = camera.position.z;
   const endZ = startZ - distance;
   const startTime = performance.now();
