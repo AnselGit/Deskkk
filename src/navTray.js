@@ -8,14 +8,18 @@ export function loadNav(onNext, onBack, onToggle) {
 
     <div class="tray">
       <div class="tray__item tray__item--prev">
-        <button class="nav__btn nav__btn--back" id="back">
-          <img src="/assets/prev.png" alt="back" class="nav__icon--back">
+        <button class="nav__btn nav__btn--back" id="back" aria-label="Back">
+          <svg class="nav__icon--back" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
         </button>
       </div>
 
       <div class="tray__item tray__item--next">
         <button class="nav__btn nav__btn--next" id="next">
-          <img src="/assets/next.png" alt="next class="nav__icon--next">
+          <svg class="nav__icon--next" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
         </button>
       </div>
 

@@ -9,6 +9,7 @@
   pointer-events: auto;
   align-items: center;
   margin-right: 8px;
+  color: white;
 }
 
 .tray__item {
@@ -19,11 +20,6 @@
 
 .tray__item--theme {
   align-self: center;
-}
-
-img {
-  width: 20px;
-  height: 20px;
 }
 
 .nav__btn {
