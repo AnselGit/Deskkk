@@ -34,6 +34,11 @@
   color: white;
   border: none;
   cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.nav__btn:hover {
+  transform: scale(1.05);
 }
 
 
