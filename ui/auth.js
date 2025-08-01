@@ -3,10 +3,17 @@ export function loadAuth(onContinue) {
   div.id = 'auth';
   div.className = 'section';
   div.innerHTML = `
-  <div class="auth__glass">
-    <h1>Login or Sign Up</h1>
-    <p>Access your study tools and track progress.</p>
-    <button id="auth-next" class="auth__btn">Continue</button>
+
+  <div class="auth">
+
+    <div class="auth__page1">
+      
+    </div>
+
+    <div class="auth__page2">
+      <button id="auth-next" class="auth__btn">Continue</button>
+    </div>
+
   </div>
 `;
 

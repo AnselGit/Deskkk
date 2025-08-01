@@ -50,7 +50,7 @@ export default function initThree() {
   // --- Objects Creation ---
   const creators = [createBook, createPencil, createStickyNote, createFlashCard];
 
-  for (let i = 0; i < 30; i++) {
+  for (let i = 0; i < 0; i++) {
     const createFn = creators[Math.floor(Math.random() * creators.length)];
     const object = createFn();
 
