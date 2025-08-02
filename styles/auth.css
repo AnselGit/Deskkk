@@ -1,4 +1,22 @@
+@font-face {
+  font-family: 'Satoshi-Black';
+  src: url('/assets/fonts/Satoshi-Black.otf') format('opentype');
+  font-weight: 900;
+}
+
+@font-face {
+  font-family: 'PlusJakartaSans-Regular';
+  src: url('/assets/fonts/PlusJakartaSans-Regular.otf') format('opentype');
+  font-weight: 900;
+}
+
 .auth {
+  
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(15px);
+  background: rgba(218, 218, 218, 0.1);
+
   width: 100%;
   height: 100%;
   max-width: 60rem;
@@ -16,15 +34,48 @@
   width: 100%;
   height: 100%;
   overflow: hidden;
+  display: grid;
 }
 
 .auth__page1 {
-  background-color: red;
+  display: grid;
+  grid-template-rows: 1fr 2fr 1fr;
+  height: 100%;
+  border-right: 0.5px solid ghostwhite;
 }
 .auth__page2 {
-  background-color: blue;
+  border-left: 0.5px solid ghostwhite;
 }
 
 .auth__btn {
   
+}
+
+.auth__page1--heading,
+.auth__page1--body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.auth__page1--heading {
+  font-family: Satoshi-Black;
+  font-size: 48px;
+  color: black;
+}
+
+.auth__page1--body {
+  font-family: PlusJakartaSans-Regular;
+  font-size: 24px;
+  color: black;
+  padding: 0 2rem;
+  text-align: justify;
+  max-width: 40ch;
+  margin: 0 auto;
+}
+
+.auth__page1--title,
+.auth__page1--desc {
+  margin: 0;
 }
