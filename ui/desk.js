@@ -12,4 +12,6 @@ export function loadDesk(onContinue) {
   document.getElementById('desk-next').addEventListener('click', () => {
     onContinue(div);
   });
+  
+  return div;
 }

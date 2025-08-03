@@ -200,7 +200,7 @@
 }
 
 .page2__card.scroll-down .page2__inner {
-  transform: translateY(-102.5%); /* scrolls to Sign In */
+  transform: translateY(-102.5%);
 }
 
 /* Each form box takes full size */
