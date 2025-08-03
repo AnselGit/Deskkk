@@ -27,7 +27,7 @@ const { renderer, camera } = initThree();
 const sectionTransitions = {
   hero: null,
   auth: null,
-  desk: { camera: { z: -10, duration: 1.5 } },
+  desk: { camera: { y: -6, duration: 1.5 } },
   drills: { camera: { z: -5, duration: 1 } },
   flips: { camera: { z: -7, duration: 1.2 } }
 };
@@ -105,4 +105,4 @@ const { goNext, goPrev, goToggle } =
   NavHandlers({ appState, showSection, transitionToNext, renderer });
 
 loadNav(goNext, goPrev, goToggle);
-// showSection('hero');
+showSection('hero');

@@ -29,7 +29,7 @@ export function createDesk() {
 
   // Desk legs (4)
   const legMaterial = new THREE.MeshStandardMaterial({
-    color: new THREE.Color('#cccccc'),
+    color: new THREE.Color('#ff0000'),
     roughness: 0.5,
     metalness: 0.8,
   });

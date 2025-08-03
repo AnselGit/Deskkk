@@ -7,6 +7,7 @@ import { createBook } from './objects/book.js';
 import { createPencil } from './objects/pencil.js';
 import { createStickyNote } from './objects/stickyNote.js';
 import { createFlashCard } from './objects/flashCard.js';
+import { createDesk } from './objects/table.js';
 
 import { setupCameraOrbit } from './utils/cameraOrbit.js';
 import { getResponsiveCameraZ, handleResizeLerp, updateCameraZLerp } from './utils/responsiveCam.js';
@@ -95,6 +96,14 @@ export default function initThree() {
     world.addBody(body);
     bodies.push(body);
   }
+
+
+
+  // --- Add Desk ---
+  const desk = createDesk();
+  desk.position.set(0, -6, 0); // Adjust to bottom center of view
+  scene.add(desk);
+
 
   // --- Lighting ---
   const light = new THREE.RectAreaLight('white', 100, 50, 1);
