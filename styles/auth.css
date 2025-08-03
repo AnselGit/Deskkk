@@ -86,8 +86,8 @@
 
 .page1__paragraph--title,
 .page1__paragraph--desc,
-.page1__paragraph--label,
-.page1__link--login {
+.page2__paragraph--label,
+.page2__link--login {
   margin: 0;
 }
 
@@ -97,6 +97,16 @@
   display: flex;
   padding: 1rem;
   box-sizing: border-box;
+}
+
+.page2__ScrollDown,
+.page2__ScrollUp {
+  font-family: PlusJakartaSans-Regular;
+  font-size: 14px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 10px;
 }
 
 
@@ -176,3 +186,32 @@
 }
 
 
+
+.page2__form--signup,
+.page2__form--signin {
+  margin-bottom: 1rem;
+}
+
+/* transition */
+/* Wrap for stacked vertical forms */
+.page2__inner {
+  transition: transform 0.6s ease-in-out;
+  transform: translateY(0%);
+}
+
+.page2__card.scroll-down .page2__inner {
+  transform: translateY(-102.5%); /* scrolls to Sign In */
+}
+
+/* Each form box takes full size */
+.page2__form--box {
+  height: 100%;
+  width: 100%;
+}
+
+/* Extra: Hide overflow */
+.page2__card {
+  overflow: hidden;
+  flex: 1;
+  display: flex;
+}
