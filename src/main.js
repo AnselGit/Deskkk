@@ -5,7 +5,7 @@ import '../styles/auth.css';
 
 // ✅ 2. Core logic and libraries
 import initThree from '../three/threeBg.js';
-import { moveCameraForward } from '../three/utils/transitionCam.js';
+import { moveCameraTo } from '../three/utils/transitionCam.js';
 import { fadeIn, fadeOut } from './effects.js';
 import { NavHandlers } from './functions.js';
 
@@ -27,7 +27,7 @@ const { renderer, camera } = initThree();
 const sectionTransitions = {
   hero: null,
   auth: null,
-  desk: { camera: { y: -6, duration: 1.5 } },
+  desk: { camera: { z: -15, duration: 1.5 } },
   drills: { camera: { z: -5, duration: 1 } },
   flips: { camera: { z: -7, duration: 1.2 } }
 };
@@ -83,26 +83,25 @@ function showSection(name) {
 // ✅ 8. Camera + section transition
 function transitionToNext(currentDOMElement) {
   const currentSection = appState.getCurrent();
-  const nextSection = appState.sections[appState.currentIndex + 1];
+  const next = appState.next(); // ✅ Update index now
+  if (!next) return;
 
+  // Get camera config for the actual next section
+  const transition = sectionTransitions[next];
+  if (transition?.camera) {
+    moveCameraTo(camera, transition.camera, transition.camera.duration);
+  }
+
+  // Fade out and load next
   fadeOut(currentDOMElement, () => {
     currentDOMElement.remove();
-    const next = appState.next();
-    if (next) {
-      showSection(next);
-    }
+    showSection(next); // ✅ Now uses correct next section
   });
-
-  const transition = sectionTransitions[nextSection];
-  if (transition?.camera) {
-    const { z, duration } = transition.camera;
-    moveCameraForward(camera, z, duration);
-  }
 }
 
 // ✅ 9. Init nav + start app
 const { goNext, goPrev, goToggle } =
-  NavHandlers({ appState, showSection, transitionToNext, renderer });
+  NavHandlers({ appState, showSection, transitionToNext, renderer, camera });
 
 loadNav(goNext, goPrev, goToggle);
 showSection('hero');

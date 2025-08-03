@@ -1,5 +1,5 @@
 import { fadeOut } from './effects.js';
-import { moveCameraForward } from '../three/utils/transitionCam.js';
+import { moveCameraTo } from '../three/utils/transitionCam.js';
 import { toggleDarkMode } from './effects.js';
 import { Camera } from 'three';
 import initThree from '../three/threeBg.js';
