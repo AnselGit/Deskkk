@@ -32,6 +32,9 @@ export default function initThree() {
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setClearColor('ghostwhite', 1);
+  //shadows
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   document.body.appendChild(renderer.domElement);
 
   // --- Camera Orbit ---
@@ -113,6 +116,27 @@ export default function initThree() {
 
   scene.add(new THREE.AmbientLight('white', 0.3));
   scene.add(new THREE.HemisphereLight('white', 'white', 5));
+
+  // Overhead directional light (casts strong light down)
+const dirLight = new THREE.DirectionalLight('white', 2);
+dirLight.position.set(0, 5, 5);       // Above and in front
+dirLight.target.position.set(0, 0, 0); // Pointing to center of desk
+dirLight.castShadow = true;
+
+// Optional: improve shadow quality
+dirLight.shadow.mapSize.width = 2048;
+dirLight.shadow.mapSize.height = 2048;
+dirLight.shadow.camera.near = 0.5;
+dirLight.shadow.camera.far = 20;
+
+scene.add(dirLight);
+scene.add(dirLight.target);
+
+// Ambient fill light
+scene.add(new THREE.AmbientLight('white', 0.3));
+
+// Optional: Hemisphere for soft environment lighting
+scene.add(new THREE.HemisphereLight('white', 'gray', 0.5));
 
   // --- Resize Handling ---
   window.addEventListener('resize', onWindowResize);

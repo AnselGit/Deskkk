@@ -37,6 +37,8 @@ export function createDesk() {
   legPositions.forEach(([x, y, z]) => {
     const leg = new THREE.Mesh(legGeometry, legMaterial);
     leg.position.set(x, y, z);
+    leg.castShadow = true;         // ✅ Moved inside
+    leg.receiveShadow = true;      // (optional)
     group.add(leg);
   });
 
@@ -85,6 +87,11 @@ export function createDesk() {
   spotLight.target.position.set(1.5, 0.5, -0.8); // pointing downward to desk
   group.add(spotLight);
   group.add(spotLight.target);
+
+  //shadow
+  deskTop.castShadow = true;
+  deskTop.receiveShadow = true;
+  lampHead.castShadow = true;
 
   group.scale.set(2, 2, 2); // Optional scaling
 
