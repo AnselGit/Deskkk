@@ -104,4 +104,4 @@ const { goNext, goPrev, goToggle } =
   NavHandlers({ appState, showSection, transitionToNext, renderer, camera });
 
 loadNav(goNext, goPrev, goToggle);
-showSection('hero');
+// showSection('hero');

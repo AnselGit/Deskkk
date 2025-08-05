@@ -51,7 +51,7 @@ export default function initThree() {
   // --- Objects Creation ---
   const creators = [createBook, createPencil, createStickyNote, createFlashCard];
 
-  for (let i = 0; i < 30; i++) {
+  for (let i = 0; i < 0; i++) {
     const createFn = creators[Math.floor(Math.random() * creators.length)];
     const object = createFn();
 
@@ -101,7 +101,7 @@ export default function initThree() {
 
   // --- Add Desk ---
   const desk = createDesk();
-  desk.position.set(0, -6, 0); // Adjust to bottom center of view
+  desk.position.set(0, -1, 0); 
   scene.add(desk);
 
 
