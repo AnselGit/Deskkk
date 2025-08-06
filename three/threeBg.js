@@ -26,7 +26,7 @@ export default function initThree() {
 
   // --- Camera ---
   const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-  camera.position.set(0, 0, 5)
+  camera.position.set(0, 0, 8)
   window.addEventListener('resize', () => handleResizeLerp(camera));
 
   // --- Renderer ---
@@ -56,7 +56,7 @@ export default function initThree() {
   // --- Objects Creation ---
   const creators = [createBook, createPencil, createStickyNote, createFlashCard];
 
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 25; i++) {
     const createFn = creators[Math.floor(Math.random() * creators.length)];
     const object = createFn();
 

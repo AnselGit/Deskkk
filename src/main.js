@@ -25,11 +25,21 @@ const { renderer, camera, setOrbitCenter } = initThree();
 
 // ✅ 5. Section-specific camera transitions
 const sectionTransitions = {
-  hero: null,
-  auth: null,
-  desk: { camera: { z: -15, duration: 1.5 } },
-  drills: { camera: { z: -5, duration: 1 } },
-  flips: { camera: { z: -7, duration: 1.2 } }
+  hero: {
+    camera: { x: 0, y: 0, z: 10, duration: 1.5 }
+  },
+  auth: {
+    camera: { x: 0, y: 2, z: 8, duration: 1.5 }
+  },
+  desk: {
+    camera: { x: 0, y: -8, z: -5, duration: 2 }
+  },
+  drills: {
+    camera: { x: 2, y: 3, z: -5, duration: 1.2 }
+  },
+  flips: {
+    camera: { x: -3, y: 0, z: -7, duration: 1.5 }
+  }
 };
 
 // ✅ 6. Centralized app state
@@ -87,17 +97,24 @@ function transitionToNext(currentDOMElement) {
   if (!next) return;
 
   const transition = sectionTransitions[next];
-  if (transition?.camera) {
-    moveCameraTo(camera, transition.camera, transition.camera.duration, () => {
-      // ✅ After transition completes
-      const { x = camera.position.x, y = camera.position.y, z = camera.position.z } = transition.camera;
-      setOrbitCenter(x, y, z); // 🎯 Orbit around new section center
-    });
+  const cameraTarget = transition?.camera;
+
+  const completeTransition = () => {
+    if (cameraTarget) {
+      const { x = camera.position.x, y = camera.position.y, z = camera.position.z } = cameraTarget;
+      setOrbitCenter(x, y, z); // Sync orbit after camera arrives
+    }
+    showSection(next);
+  };
+
+  if (cameraTarget) {
+    moveCameraTo(camera, cameraTarget, cameraTarget.duration, completeTransition);
+  } else {
+    completeTransition();
   }
 
   fadeOut(currentDOMElement, () => {
     currentDOMElement.remove();
-    showSection(next);
   });
 }
 
@@ -106,4 +123,4 @@ const { goNext, goPrev, goToggle } =
   NavHandlers({ appState, showSection, transitionToNext, renderer, camera });
 
 loadNav(goNext, goPrev, goToggle);
-// showSection('hero');
+showSection('hero');
