@@ -21,18 +21,18 @@ import { loadFlips } from '../ui/flips.js';
 
 
 // ✅ 4. Initialize 3D background
-const { renderer, camera, setOrbitCenter } = initThree();
+const { renderer, camera, setOrbitCenter, orbitSystem } = initThree();
 
 // ✅ 5. Section-specific camera transitions
 const sectionTransitions = {
   hero: {
-    camera: { x: 0, y: 0, z: 10, duration: 1.5 }
+    camera: { x: 0, y: 0, z: 8, duration: 1.5 }
   },
   auth: {
-    camera: { x: 0, y: 2, z: 8, duration: 1.5 }
+    camera: { x: 0, y: 0, z: 9, duration: 1.5 }
   },
   desk: {
-    camera: { x: 0, y: -8, z: -5, duration: 2 }
+    camera: { x: 0, y: -10, z: 3, duration: 2 }
   },
   drills: {
     camera: { x: 2, y: 3, z: -5, duration: 1.2 }
@@ -102,13 +102,22 @@ function transitionToNext(currentDOMElement) {
   const completeTransition = () => {
     if (cameraTarget) {
       const { x = camera.position.x, y = camera.position.y, z = camera.position.z } = cameraTarget;
-      setOrbitCenter(x, y, z); // Sync orbit after camera arrives
+      setOrbitCenter(x, y, z);
     }
     showSection(next);
   };
 
   if (cameraTarget) {
-    moveCameraTo(camera, cameraTarget, cameraTarget.duration, completeTransition);
+    const isHero = next === 'hero'; // ✅ Corrected
+
+    moveCameraTo(
+      camera,
+      cameraTarget,
+      cameraTarget.duration,
+      completeTransition,
+      orbitSystem,
+      { easing: isHero } // ✅ Only hero gets ease
+    );
   } else {
     completeTransition();
   }

@@ -19,7 +19,11 @@ export function setupCameraOrbit(camera, renderer, radius = 5, smooth = 0.05) {
   window.addEventListener('mouseleave', () => isMouseActive = false);
   window.addEventListener('blur', () => isMouseActive = false);
 
+  let orbitEnabled = true;
+
   function updateCameraOrbit() {
+    if (!orbitEnabled) return;
+
     const decay = 0.05; // ✅ Slower, gentler decay
     const horizontalStrength = 0.5; // ✅ Less aggressive rotation
     const verticalStrength = 0.5;   // ✅ Balanced vertical movement
@@ -50,6 +54,8 @@ export function setupCameraOrbit(camera, renderer, radius = 5, smooth = 0.05) {
     updateCameraOrbit,
     setOrbitCenter: (x, y, z) => {
       orbitCenter.set(x, y, z);
-    }
+    },
+    enableOrbit: () => orbitEnabled = true,
+    disableOrbit: () => orbitEnabled = false
   };
 }

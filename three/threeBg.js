@@ -153,7 +153,7 @@ scene.add(helper);
   // --- Start Animation Loop ---
   animate();
   
-  return { camera, renderer ,renderer, setOrbitCenter: orbitSystem.setOrbitCenter};
+  return { camera ,renderer, setOrbitCenter: orbitSystem.setOrbitCenter, orbitSystem};
 
 
 
