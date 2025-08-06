@@ -21,7 +21,7 @@ import { loadFlips } from '../ui/flips.js';
 
 
 // ✅ 4. Initialize 3D background
-const { renderer, camera } = initThree();
+const { renderer, camera, setOrbitCenter } = initThree();
 
 // ✅ 5. Section-specific camera transitions
 const sectionTransitions = {
@@ -83,19 +83,21 @@ function showSection(name) {
 // ✅ 8. Camera + section transition
 function transitionToNext(currentDOMElement) {
   const currentSection = appState.getCurrent();
-  const next = appState.next(); // ✅ Update index now
+  const next = appState.next();
   if (!next) return;
 
-  // Get camera config for the actual next section
   const transition = sectionTransitions[next];
   if (transition?.camera) {
-    moveCameraTo(camera, transition.camera, transition.camera.duration);
+    moveCameraTo(camera, transition.camera, transition.camera.duration, () => {
+      // ✅ After transition completes
+      const { x = camera.position.x, y = camera.position.y, z = camera.position.z } = transition.camera;
+      setOrbitCenter(x, y, z); // 🎯 Orbit around new section center
+    });
   }
 
-  // Fade out and load next
   fadeOut(currentDOMElement, () => {
     currentDOMElement.remove();
-    showSection(next); // ✅ Now uses correct next section
+    showSection(next);
   });
 }
 

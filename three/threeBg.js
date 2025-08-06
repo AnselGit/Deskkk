@@ -1,6 +1,5 @@
 import * as THREE from 'three';
 import * as CANNON from 'cannon-es';
-import { RectAreaLightHelper } from 'three/examples/jsm/helpers/RectAreaLightHelper.js';
 import { RectAreaLightUniformsLib } from 'three/examples/jsm/lights/RectAreaLightUniformsLib.js';
 
 import { createBook } from './objects/book.js';
@@ -14,18 +13,20 @@ import { getResponsiveCameraZ, handleResizeLerp, updateCameraZLerp } from './uti
 
 RectAreaLightUniformsLib.init();
 
-let scene, camera, renderer, world;
+let world;
 let objects = [], bodies = [], spinSpeeds = [];
+let updateCameraOrbitFn;
+let setOrbitCenter;
 const clock = new THREE.Clock();
 
 export default function initThree() {
+
   // --- Scene ---
   const scene = new THREE.Scene();
 
   // --- Camera ---
   const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-  camera.position.z = 5;
-  camera.lookAt(0, 0, getResponsiveCameraZ());
+  camera.position.set(0, 0, 5)
   window.addEventListener('resize', () => handleResizeLerp(camera));
 
   // --- Renderer ---
@@ -38,7 +39,8 @@ export default function initThree() {
   document.body.appendChild(renderer.domElement);
 
   // --- Camera Orbit ---
-  const updateCameraOrbit = setupCameraOrbit(camera, renderer);
+  ({ updateCameraOrbit: updateCameraOrbitFn, setOrbitCenter } = setupCameraOrbit(camera, renderer));
+
 
   // --- Physics World ---
   world = new CANNON.World();
@@ -54,7 +56,7 @@ export default function initThree() {
   // --- Objects Creation ---
   const creators = [createBook, createPencil, createStickyNote, createFlashCard];
 
-  for (let i = 0; i < 0; i++) {
+  for (let i = 0; i < 10; i++) {
     const createFn = creators[Math.floor(Math.random() * creators.length)];
     const object = createFn();
 
@@ -103,9 +105,10 @@ export default function initThree() {
 
 
   // --- Add Desk ---
-  const desk = createDesk();
-  desk.position.set(0, -1, 0); 
-  scene.add(desk);
+  const { mesh: deskMesh, body: deskBody } = createDesk();
+  deskMesh.position.set(0, -10, 0); 
+  scene.add(deskMesh);
+  world.addBody(deskBody);
 
 
   // --- Lighting ---
@@ -116,8 +119,8 @@ export default function initThree() {
 
   // Create a SpotLight
 const spotLight = new THREE.SpotLight('white');
-spotLight.position.set(0, 5, 0); // Position the light
-spotLight.target.position.set(0, -3, 0); // Point the light at the origin
+spotLight.position.set(0, 14, 0); // Position the light
+spotLight.target.position.set(0, -15, 0); // Point the light at the origin
 spotLight.intensity = 1000; // Increase intensity
 spotLight.distance = 1000; // Set a distance limit
 spotLight.decay = 2; // Add some decay
@@ -137,15 +140,25 @@ scene.add(helper);
   // --- Resize Handling ---
   window.addEventListener('resize', onWindowResize);
 
+
+  // ✅ Initialize orbit system
+  const orbitSystem = setupCameraOrbit(camera, renderer);
+
+  // ✅ Store function references
+  updateCameraOrbitFn = orbitSystem.updateCameraOrbit;
+  setOrbitCenter = orbitSystem.setOrbitCenter;
+
+
+
   // --- Start Animation Loop ---
   animate();
   
-  return { camera, renderer };
+  return { camera, renderer ,renderer, setOrbitCenter: orbitSystem.setOrbitCenter};
 
 
 
   // --- Utility Functions ---
-  function randomBetween(min, max) {
+  function randomBetween(min, max) {  
     return Math.random() * (max - min) + min;
   }
 
@@ -161,7 +174,7 @@ scene.add(helper);
     const delta = clock.getDelta();
     world.step(1 / 60, delta, 3);
 
-    updateCameraOrbit();
+    if (updateCameraOrbitFn) updateCameraOrbitFn();
     updateCameraZLerp(camera);
     helper.update();
 

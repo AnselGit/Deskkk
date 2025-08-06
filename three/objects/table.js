@@ -1,93 +1,60 @@
 import * as THREE from 'three';
+import * as CANNON from 'cannon-es';
 import { RoundedBoxGeometry } from 'three-stdlib';
 
 export function createDesk() {
   const group = new THREE.Group();
 
-  // ✅ Reusable Glassy Gold Material (OOP-style)
-  const glassGoldMaterial = new THREE.MeshPhysicalMaterial({
-    color: new THREE.Color('#ff7b00'),
-    // color: new THREE.Color('white'),
+  const glassyGoldMaterial = new THREE.MeshPhysicalMaterial({
+    color: new THREE.Color('#FFD700'), // Gold color
     transparent: true,
     opacity: 0.6,
-    roughness: 2,
+    roughness: 0.1,
     transmission: 1.0,
     ior: 1.4,
     thickness: 0.2,
-    reflectivity: 0.4,
+    reflectivity: 0.3,
     clearcoat: 1.0,
     clearcoatRoughness: 0.1,
-    metalness: 0.1,
   });
 
-  // 🟡 Desk Top (Glass-Gold)
-  const deskTop = new THREE.Mesh(
-    new RoundedBoxGeometry(3, 0.1, 2, 5, 0.15),
-    glassGoldMaterial
-  );
-  deskTop.position.y = 1;
-  deskTop.castShadow = true;
-  deskTop.receiveShadow = true;
-  group.add(deskTop);
+  // Desk top
+  const topGeometry = new RoundedBoxGeometry(8, 0.5, 4, 5, 0.2);
+  const topMesh = new THREE.Mesh(topGeometry, glassyGoldMaterial);
+  topMesh.castShadow = true;
+  topMesh.receiveShadow = true;
+  topMesh.position.y = 0;
+  group.add(topMesh);
 
-  // 🟡 Legs (Glass-Gold)
-  const legGeometry = new THREE.CylinderGeometry(0.05, 0.05, 1.5, 12);
-  const legPositions = [
-    [-1.40, 0.25, -0.85],
-    [1.40, 0.25, -0.85],
-    [-1.40, 0.25, 0.85],
-    [1.40, 0.25, 0.85],
+  // Desk legs
+  const legGeometry = new THREE.BoxGeometry(0.3, 4, 0.3);
+  const positions = [
+    [-3.5, -2.25, 1.7],
+    [3.5, -2.25, 1.7],
+    [-3.5, -2.25, -1.7],
+    [3.5, -2.25, -1.7],
   ];
 
-  legPositions.forEach(([x, y, z]) => {
-    const leg = new THREE.Mesh(legGeometry, glassGoldMaterial);
-    leg.position.set(x, y, z);
+  for (const [x, y, z] of positions) {
+    const leg = new THREE.Mesh(legGeometry, glassyGoldMaterial);
     leg.castShadow = true;
     leg.receiveShadow = true;
+    leg.position.set(x, y, z);
     group.add(leg);
+  }
+
+  // 🔗 Create corresponding static physics body
+  const deskBody = new CANNON.Body({
+    mass: 0, // static
+    position: new CANNON.Vec3(0, -10, 0),
+    shape: new CANNON.Box(new CANNON.Vec3(4, 0.25, 2)), // approximate desk top
   });
 
-  // Lamp base (unchanged)
-  const lampBaseMaterial = new THREE.MeshStandardMaterial({
-    color: new THREE.Color('#222222'),
-    roughness: 0.3,
-    metalness: 1.0,
-  });
+  // Optional: add legs as compound shapes for better collision realism (can be skipped)
+  const legShape = new CANNON.Box(new CANNON.Vec3(0.15, 2, 0.15));
+  for (const [x, y, z] of positions) {
+    deskBody.addShape(legShape, new CANNON.Vec3(x, y, z));
+  }
 
-  const lampBase = new THREE.Mesh(
-    new RoundedBoxGeometry(0.3, 0.05, 0.3, 4, 0.05),
-    lampBaseMaterial
-  );
-  lampBase.position.set(1.25, 1.05, -0.8);
-  group.add(lampBase);
-
-  // Lamp stand (unchanged)
-  const lampStand = new THREE.Mesh(
-    new THREE.CylinderGeometry(0.025, 0.025, 0.6, 12),
-    lampBaseMaterial
-  );
-  lampStand.position.set(1.25, 1.35, -0.8);
-  group.add(lampStand);
-
-  // Lamp head (unchanged)
-  const lampHeadMaterial = new THREE.MeshStandardMaterial({
-    color: new THREE.Color('#ffffcc'),
-    emissive: new THREE.Color('#ffffaa'),
-    emissiveIntensity: 1.5,
-    roughness: 0.3,
-    metalness: 0.2,
-  });
-
-  const lampHead = new THREE.Mesh(
-    new THREE.SphereGeometry(0.15, 16, 16),
-    lampHeadMaterial
-  );
-  lampHead.position.set(1.25, 1.65, -0.8);
-  lampHead.rotation.x = -0.5;
-  lampHead.castShadow = true;
-  group.add(lampHead);
-
-  group.scale.set(2, 2, 2);
-
-  return group;
+  return { mesh: group, body: deskBody };
 }
