@@ -114,29 +114,25 @@ export default function initThree() {
   light.lookAt(0, 0, 0);
   scene.add(light);
 
-  scene.add(new THREE.AmbientLight('white', 0.3));
-  scene.add(new THREE.HemisphereLight('white', 'white', 5));
+  // Create a SpotLight
+const spotLight = new THREE.SpotLight('white');
+spotLight.position.set(0, 5, 0); // Position the light
+spotLight.target.position.set(0, -3, 0); // Point the light at the origin
+spotLight.intensity = 1000; // Increase intensity
+spotLight.distance = 1000; // Set a distance limit
+spotLight.decay = 2; // Add some decay
+spotLight.castShadow = true; // Enable shadow casting
 
-  // Overhead directional light (casts strong light down)
-const dirLight = new THREE.DirectionalLight('white', 2);
-dirLight.position.set(0, 5, 5);       // Above and in front
-dirLight.target.position.set(0, 0, 0); // Pointing to center of desk
-dirLight.castShadow = true;
+// Add to the scene
+scene.add(spotLight);
+scene.add(spotLight.target); // Important for target to be part of the scene graph
 
-// Optional: improve shadow quality
-dirLight.shadow.mapSize.width = 2048;
-dirLight.shadow.mapSize.height = 2048;
-dirLight.shadow.camera.near = 0.5;
-dirLight.shadow.camera.far = 20;
+// Add a helper (optional, for visualization)
+const helper = new THREE.SpotLightHelper(spotLight);
+scene.add(helper);
 
-scene.add(dirLight);
-scene.add(dirLight.target);
-
-// Ambient fill light
-scene.add(new THREE.AmbientLight('white', 0.3));
-
-// Optional: Hemisphere for soft environment lighting
-scene.add(new THREE.HemisphereLight('white', 'gray', 0.5));
+// In your render loop, if using a helper
+// helper.update();
 
   // --- Resize Handling ---
   window.addEventListener('resize', onWindowResize);
@@ -167,6 +163,7 @@ scene.add(new THREE.HemisphereLight('white', 'gray', 0.5));
 
     updateCameraOrbit();
     updateCameraZLerp(camera);
+    helper.update();
 
     for (let i = 0; i < objects.length; i++) {
       objects[i].position.copy(bodies[i].position);
