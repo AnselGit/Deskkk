@@ -1,12 +1,22 @@
 import * as THREE from 'three';
 
-export function setupCameraOrbit(camera, renderer, radius = 5, smooth = 0.09, decay = 0.05) {
+export function setupCameraOrbit(
+  camera,
+  renderer,
+  radius = 0,
+  smooth = 0,
+  decay = 0,
+  horizontalStrength = 0,
+  verticalStrength = 0
+) {
+
   const mouse = { x: 0, y: 0 };
   const targetMouse = { x: 0, y: 0 };
   const targetPos = new THREE.Vector3();
   const orbitCenter = new THREE.Vector3(0, 0, 0);
   let isMouseActive = true;
-
+  let currentHorizontal = horizontalStrength;
+  let currentVertical = verticalStrength;
   let orbitEnabled = true;
 
   // Orbit parameters (make mutable)
@@ -27,9 +37,6 @@ export function setupCameraOrbit(camera, renderer, radius = 5, smooth = 0.09, de
   function updateCameraOrbit() {
     if (!orbitEnabled) return;
 
-    const horizontalStrength = 0.5;
-    const verticalStrength = 0.5;
-
     if (isMouseActive) {
       mouse.x += (targetMouse.x - mouse.x) * currentDecay;
       mouse.y += (targetMouse.y - mouse.y) * currentDecay;
@@ -39,8 +46,8 @@ export function setupCameraOrbit(camera, renderer, radius = 5, smooth = 0.09, de
     }
 
     const clampedY = Math.max(-0.7, Math.min(0.7, mouse.y));
-    const angleX = -mouse.x * horizontalStrength;
-    const angleY = clampedY * verticalStrength;
+    const angleX = -mouse.x * currentHorizontal;
+    const angleY = clampedY * currentVertical;
 
     const x = orbitCenter.x + currentRadius * Math.sin(angleX) * Math.cos(angleY);
     const y = orbitCenter.y + currentRadius * Math.sin(angleY);
@@ -56,10 +63,14 @@ export function setupCameraOrbit(camera, renderer, radius = 5, smooth = 0.09, de
     setOrbitCenter: (x, y, z) => orbitCenter.set(x, y, z),
     enableOrbit: () => orbitEnabled = true,
     disableOrbit: () => orbitEnabled = false,
-    setParams: (params = {}) => {
-      if (params.radius !== undefined) currentRadius = params.radius;
-      if (params.smooth !== undefined) currentSmooth = params.smooth;
-      if (params.decay !== undefined) currentDecay = params.decay;
+    setParams: (newRadius, newSmooth, newDecay) => {
+      radius = newRadius;
+      smooth = newSmooth;
+      decay = newDecay;
+    },
+    setStrengths: (h, v) => {
+      currentHorizontal = h;
+      currentVertical = v;
     }
   };
 }

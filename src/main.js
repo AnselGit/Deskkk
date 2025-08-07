@@ -27,23 +27,23 @@ const { renderer, camera, setOrbitCenter, orbitSystem } = initThree();
 const sectionTransitions = {
   hero: {
     camera: { x: 0, y: 0, z: 8, duration: 1.5 },
-    orbit: { radius: 5, smooth: 0.09, decay: 0.05 }
+    orbit: { radius: 5, smooth: 0.1, decay: 0.05, horizontal: 0.01, vertical: 0.01 }
   },
   auth: {
     camera: { x: 0, y: 0, z: 9, duration: 3 },
-    orbit: { radius: 6, smooth: 0.1, decay: 0.06 }
+    orbit: { radius: 3, smooth: 0.1, decay: 0.05, horizontal: 0.001, vertical: 0.001 }
   },
   desk: {
     camera: { x: 0, y: -9, z: 1, duration: 2 },
-    orbit: { radius: 1, smooth: 0.07, decay: 0.04 }
+    orbit: { radius: 0.5, smooth: 0.1, decay: 0.05, horizontal: 1, vertical: 1 }
   },
   drills: {
     camera: { x: 2, y: 3, z: -5, duration: 1.2 },
-    orbit: { radius: 4, smooth: 0.1, decay: 0.05 }
+    orbit: { radius: 5, smooth: 0.1, decay: 0.05, horizontal: 0.3, vertical: 0.6 }
   },
   flips: {
     camera: { x: -3, y: 0, z: -7, duration: 1.5 },
-    orbit: { radius: 5.5, smooth: 0.08, decay: 0.06 }
+    orbit: { radius: 5, smooth: 0.1, decay: 0.05, horizontal: 0.3, vertical: 0.6 }
   }
 };
 
@@ -113,9 +113,15 @@ function transitionToNext(currentDOMElement) {
 
     // ✅ Apply orbit params after reaching the new section
     if (orbitParams) {
-      orbitSystem.setParams(orbitParams);
-    }
+      if (orbitSystem.setParams) {
+        orbitSystem.setParams(orbitParams.radius, orbitParams.smooth, orbitParams.decay);
+      }
 
+      if (orbitSystem.setStrengths) {
+        orbitSystem.setStrengths(orbitParams.horizontal, orbitParams.vertical);
+      }
+    }
+    
     showSection(next);
   };
 

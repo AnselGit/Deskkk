@@ -105,13 +105,13 @@ export default function initThree() {
   scene.add(spotLight.target);
 
   const helper = new THREE.SpotLightHelper(spotLight);
-  scene.add(helper);
+  // scene.add(helper);
 
   window.addEventListener('resize', onWindowResize);
 
   animate();
 
-  const orbitSystem = setupCameraOrbit(camera, renderer);
+  const orbitSystem = setupCameraOrbit(camera, renderer, 0, 0, 0, 0, 0); 
   updateCameraOrbitFn = orbitSystem.updateCameraOrbit;
 
   return {
@@ -130,7 +130,7 @@ export default function initThree() {
 
     if (updateCameraOrbitFn) updateCameraOrbitFn();
     updateCameraZLerp(camera);
-    helper.update();
+    // helper.update();
 
     for (let i = 0; i < objects.length; i++) {
       objects[i].position.copy(bodies[i].position);
