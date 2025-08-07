@@ -29,10 +29,10 @@ const sectionTransitions = {
     camera: { x: 0, y: 0, z: 8, duration: 1.5 }
   },
   auth: {
-    camera: { x: 0, y: 0, z: 9, duration: 1.5 }
+    camera: { x: 0, y: 0, z: 9, duration: 3 }
   },
   desk: {
-    camera: { x: 0, y: -10, z: 3, duration: 2 }
+    camera: { x: 0, y: -9, z: 1, duration: 2 }
   },
   drills: {
     camera: { x: 2, y: 3, z: -5, duration: 1.2 }
@@ -116,7 +116,7 @@ function transitionToNext(currentDOMElement) {
       cameraTarget.duration,
       completeTransition,
       orbitSystem,
-      { easing: isHero } // ✅ Only hero gets ease
+      { easing: isHero ? "power1.inOut" : "none" }
     );
   } else {
     completeTransition();
