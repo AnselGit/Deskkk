@@ -26,19 +26,24 @@ const { renderer, camera, setOrbitCenter, orbitSystem } = initThree();
 // ✅ 5. Section-specific camera transitions
 const sectionTransitions = {
   hero: {
-    camera: { x: 0, y: 0, z: 8, duration: 1.5 }
+    camera: { x: 0, y: 0, z: 8, duration: 1.5 },
+    orbit: { radius: 5, smooth: 0.09, decay: 0.05 }
   },
   auth: {
-    camera: { x: 0, y: 0, z: 9, duration: 3 }
+    camera: { x: 0, y: 0, z: 9, duration: 3 },
+    orbit: { radius: 6, smooth: 0.1, decay: 0.06 }
   },
   desk: {
-    camera: { x: 0, y: -9, z: 1, duration: 2 }
+    camera: { x: 0, y: -9, z: 1, duration: 2 },
+    orbit: { radius: 1, smooth: 0.07, decay: 0.04 }
   },
   drills: {
-    camera: { x: 2, y: 3, z: -5, duration: 1.2 }
+    camera: { x: 2, y: 3, z: -5, duration: 1.2 },
+    orbit: { radius: 4, smooth: 0.1, decay: 0.05 }
   },
   flips: {
-    camera: { x: -3, y: 0, z: -7, duration: 1.5 }
+    camera: { x: -3, y: 0, z: -7, duration: 1.5 },
+    orbit: { radius: 5.5, smooth: 0.08, decay: 0.06 }
   }
 };
 
@@ -98,17 +103,24 @@ function transitionToNext(currentDOMElement) {
 
   const transition = sectionTransitions[next];
   const cameraTarget = transition?.camera;
+  const orbitParams = transition?.orbit;
 
   const completeTransition = () => {
     if (cameraTarget) {
       const { x = camera.position.x, y = camera.position.y, z = camera.position.z } = cameraTarget;
       setOrbitCenter(x, y, z);
     }
+
+    // ✅ Apply orbit params after reaching the new section
+    if (orbitParams) {
+      orbitSystem.setParams(orbitParams);
+    }
+
     showSection(next);
   };
 
   if (cameraTarget) {
-    const isHero = next === 'hero'; // ✅ Corrected
+    const isHero = next === 'hero';
 
     moveCameraTo(
       camera,

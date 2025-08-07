@@ -4,8 +4,6 @@ import { toggleDarkMode } from './effects.js';
 import { Camera } from 'three';
 import initThree from '../three/threeBg.js';
 
-const { renderer, camera } = initThree();
-
 // Accept these dependencies from main.js
 export function NavHandlers({ appState, showSection, transitionToNext, renderer }) {
   function goPrev() {

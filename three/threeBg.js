@@ -111,12 +111,16 @@ export default function initThree() {
 
   animate();
 
+  const orbitSystem = setupCameraOrbit(camera, renderer);
+  updateCameraOrbitFn = orbitSystem.updateCameraOrbit;
+
   return {
     camera,
     renderer,
-    setOrbitCenter,
-    orbitSystem: { updateCameraOrbit, setOrbitCenter }
+    setOrbitCenter: orbitSystem.setOrbitCenter,
+    orbitSystem
   };
+
 
   function animate() {
     requestAnimationFrame(animate);
